@@ -1,7 +1,7 @@
 # a8c-casperjs-tests
 A repo to hold the CasperJS test suite I'm building for Automattic.
 
-Usage - casperjs --engine=slimerjs test <testFile>.js --user=<username> --pass=<password>
+Usage - casperjs --engine=slimerjs test [testFile].js --user=[username] --pass=[password]
 
 Note - You may need to set up proxychains to force the connection to the 'staging' version of the WP page.
 
