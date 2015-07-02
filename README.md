@@ -3,7 +3,7 @@ A repo to hold the CasperJS test suite I'm building for Automattic.
 
 Usage - casperjs --engine=slimerjs test [testFile].js --user=[username] --pass=[password]
 
-Note - You may need to set up proxychains to force the connection to the 'staging' version of the WP page.
+Note - You may need to set up proxychains (http://proxychains.sourceforge.net/howto.html) to force the connection to the 'staging' version of the WP page.
 
 TODO: 
 
