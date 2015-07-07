@@ -9,6 +9,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 casper.test.begin('Switch Plan Test Suite', function suite(test) {
   casper.calypsoNavigateToUpgrades(test);
+
   // Start with an empty cart
   casper.clearCart(test);
 
@@ -75,7 +76,7 @@ casper.test.begin('Switch Plan Test Suite', function suite(test) {
   });
 
   casper.run();
-  casper.then(function allDone() {
+  casper.then(function switchPlanDone() {
     casper.test.done();
   });
 });

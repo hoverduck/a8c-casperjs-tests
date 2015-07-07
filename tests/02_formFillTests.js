@@ -20,6 +20,14 @@ casper.test.begin('Invalid Form Input Test Suite', function suite(test) {
     casper.click('.business-bundle small a');
   });
 
+  // Function to clear the success/error div
+  var closeMessageDiv = function() {
+    // Clear any existing errors on display
+    if (casper.exists('div.notice span.noticon-close-alt')) {
+      casper.click('div.notice span.noticon-close-alt');
+    }
+  }
+
   // Function to clear all fields
   var clearFields = function() {
     casper.sendKeys('#name', '',		{ reset : true });
@@ -55,8 +63,7 @@ casper.test.begin('Invalid Form Input Test Suite', function suite(test) {
       test.assert(errorArray.length === errorCount, 'Verify there are ' + errorArray.length + ' errors listed (' + errorCount + ' present)');
 
       // Close the error div and clean out the form
-casper.wait(3000);
-      casper.click('span.noticon-close-alt');
+      closeMessageDiv();
       clearFields();
     });
   };
@@ -82,8 +89,15 @@ casper.wait(3000);
     });
 
     // Attempt an invalid date
-    casper.then(function() { casper.sendKeys('#expiration-date', '1520', { reset : true }); });
-    casper.then(function() { verifyError('Invalid Expiration', [ 'Credit Card Expiration Date is invalid' ]); });
+    casper.then(function() {
+      fillFields(); 
+      casper.sendKeys('#expiration-date', '1520', { reset : true });
+      verifyError('Invalid Expiration', [ 'Credit Card Expiration Date is invalid' ]);
+    });
+
+    // Close the error div and clean out the form
+    closeMessageDiv();
+    clearFields();
   });
 
   // Test typing text into the month and CVV fields, verify it's not even displayed
@@ -102,9 +116,11 @@ casper.wait(3000);
   casper.then(function badCoupon() {
     var couponErrorString = "Sorry, but we were not able to find that coupon. Please check that you typed the coupon code correctly and that this coupon is for the product you have selected.";
 
-    if (this.exists('.cart-coupon a')) {
+    if (casper.exists('.cart-coupon a')) {
       casper.click('.cart-coupon a');
     }
+
+    closeMessageDiv();
 
     casper.waitForSelector('.cart-coupon form input[type=text]', function() {
       // First clear the coupon field and click Apply to make sure any old coupons are removed
@@ -121,17 +137,17 @@ casper.wait(3000);
     casper.then(function() {
       casper.waitForSelector('div.notice.is-error', function badCouponCode() {
         test.assertTextExists(couponErrorString, 'Invalid coupon code');
-        casper.click('span.noticon-close-alt');
+        closeMessageDiv();
       });     
     });
   });
 
   // Test a good coupon code
   casper.then(function goodCoupon() {
-    var couponCode = 'GOOD-COUPON-CODE';
+    var couponCode = casper.config.couponCode;
     var couponSuccessString = 'Coupon discount applied to cart.';
 
-    if (this.exists('.cart-coupon a')) {
+    if (casper.exists('.cart-coupon a')) {
       casper.click('.cart-coupon a');
     }
  
@@ -158,7 +174,7 @@ casper.wait(3000);
   });
 
   casper.run();
-  casper.then(function allDone() {
+  casper.then(function formFillTestDone() {
     casper.test.done();
   });
 });

@@ -11,9 +11,12 @@
 ////////////////////////////////////////////////////////////////////////////////
 casper.test.begin('WP.com Login', function suite(test) {
   // Check/Set username and password arguments
-  casper.test.assert(casper.cli.has('user') && casper.cli.has('pass'), 'Supply --user and --pass arguments');
-  var username = casper.cli.get('user');
-  var password = casper.cli.get('pass');
+//  casper.test.assert(casper.cli.has('user') && casper.cli.has('pass'), 'Supply --user and --pass arguments');
+//  var username = casper.cli.get('user');
+//  var password = casper.cli.get('pass');
+
+  // Load the sensitive info from config.json
+  casper.config = require('config.json');
 
   // Set the viewport to something usable
   casper.options.viewportSize = { width : 1024, height : 768 };
@@ -33,8 +36,8 @@ casper.test.begin('WP.com Login', function suite(test) {
   casper.waitForSelector('#loginform', function testLoginPageLoaded() {
     test.assertTitleMatch(/Log In/, 'Log in screen loads');
     this.fill('form#loginform', {
-      'log' : username,
-      'pwd' : password
+      'log' : casper.config.username,
+      'pwd' : casper.config.password
     }, true);
   });
 
@@ -68,7 +71,7 @@ casper.calypsoNavigateToUpgrades = function(test) {
     test.assertTitleMatch(/Stats/, 'My Sites page loaded');
     this.click('.upgrades a');
   });
-}
+};
 
 casper.clickWhileSelector = function(selector) {
     return this.then(function() {
@@ -78,7 +81,7 @@ casper.clickWhileSelector = function(selector) {
         }
         return;
     });
-}
+};
 
 casper.clearCart = function(test) {
   casper.calypsoNavigateToUpgrades(test);
@@ -91,4 +94,4 @@ casper.clearCart = function(test) {
       casper.clickWhileSelector('li.cart-item button.remove-item');
     }
   });
-}
+};

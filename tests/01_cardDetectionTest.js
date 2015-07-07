@@ -8,18 +8,14 @@
 //			inputs a variety of credit card numbers.  It verifies
 //			that the appropriate classes are added (and thus which
 //			images are displayed) for each brand of credit card.
-//   Usage	:
-//         casperjs --engine=slimerjs test cardDetectionTest.js
 ////////////////////////////////////////////////////////////////////////////////
 casper.test.begin('CC Image Test', function suite(test) {
-  // Load the initial webpage
-  casper.start('https://wordpress.com');
+  casper.calypsoNavigateToUpgrades(test);
 
   // Reader is loaded, click My Sites
   casper.waitForSelector('.my-sites a', function testReaderLoaded() {
     // Make sure this is the staging version
     test.assertExists('span.environment.is-staging', '"Staging" tag present');
-    test.assertTitleMatch(/Following.*Reader/, 'Logged in successfully');
     this.click('.my-sites a');
   });
 
