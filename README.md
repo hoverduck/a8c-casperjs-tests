@@ -11,7 +11,7 @@ username/password/couponCode fields.
 Note 2: This was built/tested using CasperJS version 1.1.0-beta3 and SlimerJS version 0.9.6.
 
 Usage -
-  [proxychains] casperjs --engine=slimerjs test --pre=login.js tests
+  [proxychains] casperjs --engine=slimerjs test --pre=login.js tests[/<filename>]
 
 You may need to set up proxychains (http://proxychains.sourceforge.net/howto.html)
 to force the connection to the 'staging' version of the WP page.
