@@ -10,16 +10,14 @@
 //            --user=<username> --pass=<password>
 ////////////////////////////////////////////////////////////////////////////////
 casper.test.begin('WP.com Login', function suite(test) {
-  // Check/Set username and password arguments
-//  casper.test.assert(casper.cli.has('user') && casper.cli.has('pass'), 'Supply --user and --pass arguments');
-//  var username = casper.cli.get('user');
-//  var password = casper.cli.get('pass');
-
   // Load the sensitive info from config.json
   casper.config = require('config.json');
 
   // Set the viewport to something usable
   casper.options.viewportSize = { width : 1024, height : 768 };
+
+  // Increase the wait timeout
+  casper.options.waitTimeout = 30000
 
   // Load helper scripts
 //  casper.options.clientScripts = ["include/jquery-1.11.3.min.js"];
