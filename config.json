@@ -2,4 +2,12 @@
   "username" : "",
   "password" : "",
   "couponCode" : ""
+  "name" : "",
+  "cc" : "",
+  "expDate" : "",
+  "cvv" : "",
+  "countryAbbrev" : "",
+  "postalCode" : "",
+  "siteName" : "",
+  "mailinator" : ""
 }

@@ -39,7 +39,6 @@ casper.test.begin('Trial Purchase Test Suite', function suite(test) {
       
       test.assertSelectorHasText('div.thank-you-message', message, 'Thank you message displayed');
     });
-// https://wordpress.com/me/billing - div.credit-card-delete button
   });
 
   casper.run();
