@@ -7,21 +7,21 @@
 ////////////////////////////////////////////////////////////////////////////////
 casper.test.begin('Cancel Purchase Test Suite', function suite(test) {
   // Load the 'My Upgrades' page
-//  casper.open('https://wordpress.com/my-upgrades');
-//
-//  casper.waitForText('Cancel this upgrade', function clickCancel() {
-//    casper.clickLabel('Cancel this upgrade');
-//  });
-//
-//  casper.waitForSelector('input.button-primary[type=submit]', function confirmCancel() {
-//    casper.click('input.button-primary[type=submit]');
-//  });
-//
-//  casper.then(function cancelMessage() {
-//    casper.waitForText('You requested cancellation of a plan. Please check your email for a message with a confirmation link.');
-//  });
+  casper.open('https://wordpress.com/my-upgrades');
 
-  casper.open(casper.config.mailinator);
+  casper.waitForText('Cancel this upgrade', function clickCancel() {
+    casper.clickLabel('Cancel this upgrade');
+  });
+
+  casper.waitForSelector('input.button-primary[type=submit]', function confirmCancel() {
+    casper.click('input.button-primary[type=submit]');
+  });
+
+  casper.then(function cancelMessage() {
+    casper.waitForText('You requested cancellation of a plan. Please check your email for a message with a confirmation link.');
+  });
+
+  casper.thenOpen(casper.config.mailinator);
 
   var count = 0;
   casper.then(function countMail() {
@@ -29,33 +29,32 @@ casper.test.begin('Cancel Purchase Test Suite', function suite(test) {
     count = casper.evaluate(function evalCount() { return document.querySelectorAll('ul#mailcontainer li').length; }); 
   });
 
+  var cancelURL = "http://google.com"; // Fake URL to drive failure if not replaced
   casper.then(function loopThroughMail() {
     casper.repeat(count, function clickMail() {
       casper.click('div.mail-list li.message a');
       casper.waitForSelector('div.controls', function messageLoaded() {
-        casper.withFrame('rendermail', function() {
-          try {
-            casper.clickLabel('Confirm Cancellation');
-
-            casper.waitForPopup(/my-upgrades/, function verifyPopup() {
-              test.assertEquals(casper.popups.length, 1);
-            });
-          
-            casper.withPopup(/my-upgrades/, function verifySuccessMessage() {
-              test.assertSelectorHasText('div.notice.success p', 'The upgrade has been cancelled as requested.');
-            });
-
-            casper.clickLabel('Delete', 'button');
-          } catch(e) {
-            casper.clickLabel('Delete', 'button');
-          }
-        });
+        try {
+          casper.withFrame('rendermail', function() {
+            cancelURL = casper.getElementAttribute('a.renew-button', 'href');
+          });
+        } catch(e) {
+          casper.click('div.header div.btn-group button+button+button');
+        }
       });
+
+      if (cancelURL !== "http://google.com") return; // break out of the repeat loop
+    });
+  });
+
+  casper.then(function() {
+    casper.open(cancelURL).then(function cancelURLOpened() {
+      test.assertSelectorHasText('div.notice.success p', 'The upgrade has been cancelled as requested.');
     });
   });
 
   casper.run();
-  casper.then(function switchPlanDone() {
+  casper.then(function cancelPlanDone() {
     casper.test.done();
   });
 });
