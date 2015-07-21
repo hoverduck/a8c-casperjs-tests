@@ -6,7 +6,7 @@ as a few global variables and functions.  The tests/ directory contains all of
 the individual test files.  They can be called individually, or as a group.
 
 Note: You must edit the config.json file to contain real values for the
-username/password/couponCode fields.
+given fields.
 
 Note 2: This was built/tested using CasperJS version 1.1.0-beta3 and SlimerJS version 0.9.6.
 
@@ -15,9 +15,3 @@ Usage -
 
 You may need to set up proxychains (http://proxychains.sourceforge.net/howto.html)
 to force the connection to the 'staging' version of the WP page.
-
-TODO: 
-
-    1) Exercise different methods of reaching the Plan Upgrade page
-
-    2) Exercise the full purchase process with a valid CC#
