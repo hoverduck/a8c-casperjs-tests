@@ -1,18 +1,18 @@
 ////////////////////////////////////////////////////////////////////////////////
-// Trial Purchase Test -- Using CasperJS with SlimerJS
+// Business Plan Purchase Test -- Using CasperJS with SlimerJS
 //   Author	:	Scott Stancil
 //   Date	:	08 July 2015
-//   Description:	Purchases a Business Plan Trial on a valid credit card using a
+//   Description:	Purchases a Business Plan on a valid credit card using a
 //			coupon from the config.json file.
 ////////////////////////////////////////////////////////////////////////////////
-casper.test.begin('Trial Purchase Test Suite', function suite(test) {
+casper.test.begin('Business Plan Purchase Test Suite', function suite(test) {
   casper.calypsoNavigateToUpgrades(test);
 
   // Start with an empty cart
   casper.clearCart(test);
 
-  casper.waitForSelector('div.business-bundle a.button.is-primary', function clickBusinessTrial() {
-    casper.click('div.business-bundle a.button.is-primary');
+  casper.waitForSelector('div.business-bundle small a', function clickBusinessTrial() {
+    casper.click('div.business-bundle small a');
   });
 
   casper.waitForSelector('button.button-pay', function fillForm() {
@@ -35,14 +35,14 @@ casper.test.begin('Trial Purchase Test Suite', function suite(test) {
     });
 
     casper.waitForSelector('div.thank-you-message', function thankYou() {
-      var message = 'Thank you for trying WordPress.com Business!';
+      var message = 'Thank you for your purchase!';
       
       test.assertSelectorHasText('div.thank-you-message', message, 'Thank you message displayed');
     });
   });
 
   casper.run();
-  casper.then(function purchaseTrialDone() {
+  casper.then(function purchasePlanDone() {
     casper.test.done();
   });
 });
