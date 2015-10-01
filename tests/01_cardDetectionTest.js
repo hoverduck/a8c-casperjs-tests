@@ -12,23 +12,12 @@
 casper.test.begin('CC Image Test', function suite(test) {
   casper.calypsoNavigateToUpgrades(test);
 
-  // Reader is loaded, click My Sites
-  casper.waitForSelector('.my-sites a', function testReaderLoaded() {
-    // Make sure this is the staging version
-    test.assertExists('span.environment.is-staging', '"Staging" tag present');
-    this.click('.my-sites a');
-  });
-
-  // My Sites is loaded, click Upgrades
-  casper.waitForSelector('.upgrades a', function testStatsPageLoaded() {
-    test.assertTitleMatch(/Stats/, 'My Sites page loaded');
-    this.click('.upgrades a');
-  });
 
   // Plan options are loaded, click Upgrade Now (not trial) for Business Plan
-  casper.waitForSelector('.business-bundle small a', function testPlansPageLoaded() {
+  var selector = '.business-bundle button';
+  casper.waitForSelector(selector, function testPlansPageLoaded() {
     test.assertTitleMatch(/Plans/, 'Plans selection page loaded');
-    casper.click('.business-bundle small a');
+    casper.click(selector);
   });
 
   // Verify that the CC# field maxes out at 16 digits

@@ -9,9 +9,45 @@
 //         casperjs --engine=slimerjs test cardDetectionTest.js \
 //            --user=<username> --pass=<password>
 ////////////////////////////////////////////////////////////////////////////////
+var fs = require('fs');
+var path = fs.absolute(fs.workingDirectory + '/phantomcss.js');
+var phantomcss = require(path);
+
 casper.test.begin('WP.com Login', function suite(test) {
   // Load the sensitive info from config.json
-  casper.config = require('config.json');
+  casper.config = require(fs.workingDirectory + '/config.json');
+
+        phantomcss.init( {
+                rebase: casper.cli.get( "rebase" ),
+                // SlimerJS needs explicit knowledge of this Casper, and lots of absolute paths
+                casper: casper,
+                libraryRoot: fs.absolute( fs.workingDirectory + '/PhantomCSS' ),
+                screenshotRoot: fs.absolute( fs.workingDirectory + '/screenshots' ),
+                failedComparisonsRoot: fs.absolute( fs.workingDirectory + '/failures' ),
+                addLabelToFailedImage: false,
+                /*
+                screenshotRoot: '/screenshots',
+                failedComparisonsRoot: '/failures'
+                casper: specific_instance_of_casper,
+                libraryRoot: '/phantomcss',
+                fileNameGetter: function overide_file_naming(){},
+                onPass: function passCallback(){},
+                onFail: function failCallback(){},
+                onTimeout: function timeoutCallback(){},
+                onComplete: function completeCallback(){},
+                hideElements: '#thing.selector',
+                addLabelToFailedImage: true,
+                outputSettings: {
+                        errorColor: {
+                                red: 255,
+                                green: 255,
+                                blue: 0
+                        },
+                        errorType: 'movement',
+                        transparency: 0.3
+                }*/
+        } );
+
 
   // Set the viewport to something usable
   casper.options.viewportSize = { width : 1024, height : 768 };
@@ -30,7 +66,6 @@ casper.test.begin('WP.com Login', function suite(test) {
     this.click('.click-wpcom-login', 'a');
   });
 
-
   casper.waitForSelector('#loginform', function testLoginPageLoaded() {
     test.assertTitleMatch(/Log In/, 'Log in screen loads');
     this.fill('form#loginform', {
@@ -43,7 +78,7 @@ casper.test.begin('WP.com Login', function suite(test) {
   casper.waitForSelector('.my-sites a', function testReaderLoaded() {
     // Make sure this is the staging version
     test.assertExists('span.environment.is-staging', '"Staging" tag present');
-    test.assertTitleMatch(/Following.*Reader/, 'Logged in successfully');
+    test.assertTitleMatch(/Follow.*Reader/, 'Logged in successfully');
   });
 
   casper.run();
@@ -65,9 +100,9 @@ casper.calypsoNavigateToUpgrades = function(test) {
   });
 
   // My Sites is loaded, click Upgrades
-  casper.waitForSelector('.upgrades a', function testStatsPageLoaded() {
+  casper.waitForSelector('.upgrades-nudge a', function testStatsPageLoaded() {
     test.assertTitleMatch(/Stats/, 'My Sites page loaded');
-    this.click('.upgrades a');
+    this.click('.upgrades-nudge a');
   });
 };
 
