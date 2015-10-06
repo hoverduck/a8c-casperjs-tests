@@ -1,7 +1,7 @@
 machine:
   environment:
     SLIMERJSLAUNCHER: $(which firefox)
-    PATH: $PATH:$HOME/slimerjs
+    PATH: $HOME/slimerjs:$HOME/casperjs/bin:$PATH
 checkout:
   post:
     - git submodule sync
@@ -11,6 +11,9 @@ test:
     - curl -k -L -o slimerjs.tar.bz2 http://download.slimerjs.org/releases/0.9.6/slimerjs-0.9.6-linux-i686.tar.bz2
     - tar -jxf slimerjs.tar.bz2
     - mv slimerjs-0.9.6 $HOME/slimerjs
+    - curl -k -L -o casperjs.zip https://github.com/n1k0/casperjs/zipball/1.1-beta3
+    - unzip casperjs.zip
+    - mv n1k10-casperjs-4f105a9 $HOME/casperjs
   override:
     - casperjs --engine=slimerjs --version
     - casperjs --engine=slimerjs test --pre=login.js tests/08_comparePlans_vis.js
