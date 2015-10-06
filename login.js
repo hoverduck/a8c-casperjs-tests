@@ -9,13 +9,14 @@
 //         casperjs --engine=slimerjs test cardDetectionTest.js \
 //            --user=<username> --pass=<password>
 ////////////////////////////////////////////////////////////////////////////////
+var system = require('system');
 var fs = require('fs');
 var path = fs.absolute(fs.workingDirectory + '/phantomcss.js');
 var phantomcss = require(path);
 
 casper.test.begin('WP.com Login', function suite(test) {
-  // Load the sensitive info from config.json
-  casper.config = require(fs.workingDirectory + '/config.json');
+  // Load the sensitive info from an environment variable
+  casper.config = JSON.parse(system.env.CONFIG);
 
         phantomcss.init( {
                 rebase: casper.cli.get( "rebase" ),
