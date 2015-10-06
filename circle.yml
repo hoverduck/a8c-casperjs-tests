@@ -6,4 +6,4 @@ test:
   pre:
     - curl -k -L -o slimerjs.tar.bz2 http://download.slimerjs.org/releases/0.9.6/slimerjs-0.9.6-linux-i686.tar.bz2
     - tar -jxf slimerjs.tar.bz2
-    - mv slimerjs-0.9.1 $HOME/slimerjs
+    - mv slimerjs-0.9.6 $HOME/slimerjs
