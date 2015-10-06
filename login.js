@@ -25,27 +25,6 @@ casper.test.begin('WP.com Login', function suite(test) {
                 screenshotRoot: fs.absolute( fs.workingDirectory + '/screenshots' ),
                 failedComparisonsRoot: fs.absolute( fs.workingDirectory + '/failures' ),
                 addLabelToFailedImage: false,
-                /*
-                screenshotRoot: '/screenshots',
-                failedComparisonsRoot: '/failures'
-                casper: specific_instance_of_casper,
-                libraryRoot: '/phantomcss',
-                fileNameGetter: function overide_file_naming(){},
-                onPass: function passCallback(){},
-                onFail: function failCallback(){},
-                onTimeout: function timeoutCallback(){},
-                onComplete: function completeCallback(){},
-                hideElements: '#thing.selector',
-                addLabelToFailedImage: true,
-                outputSettings: {
-                        errorColor: {
-                                red: 255,
-                                green: 255,
-                                blue: 0
-                        },
-                        errorType: 'movement',
-                        transparency: 0.3
-                }*/
         } );
 
 
@@ -57,6 +36,7 @@ casper.test.begin('WP.com Login', function suite(test) {
 
   // Load helper scripts
 //  casper.options.clientScripts = ["include/jquery-1.11.3.min.js"];
+  casper.options.clientScripts = ["include/resemble.js"];
 
   // Load the initial webpage
   casper.start('https://wordpress.com');
@@ -75,11 +55,11 @@ casper.test.begin('WP.com Login', function suite(test) {
   });
 
   // Reader is loaded, staging tag verified
-  casper.waitForSelector('.my-sites a', function testReaderLoaded() {
-    // Make sure this is the staging version
-    test.assertExists('span.environment.is-staging', '"Staging" tag present');
-    test.assertTitleMatch(/Follow.*Reader/, 'Logged in successfully');
-  });
+//  casper.waitForSelector('.my-sites a', function testReaderLoaded() {
+//    // Make sure this is the staging version
+//    test.assertExists('span.environment.is-staging', '"Staging" tag present');
+//    test.assertTitleMatch(/Follow.*Reader/, 'Logged in successfully');
+//  });
 
   casper.run();
   casper.then(function loginDone() {
@@ -92,7 +72,7 @@ casper.test.begin('WP.com Login', function suite(test) {
 //////////////////////////////////////////
 casper.calypsoNavigateToUpgrades = function(test) {
   // Load the initial webpage
-  casper.open('https://wordpress.com');
+  casper.open('http://calypso.dev:3000');
 
   // Page is loaded, click My Sites
   casper.waitForSelector('.my-sites a', function testReaderLoaded() {

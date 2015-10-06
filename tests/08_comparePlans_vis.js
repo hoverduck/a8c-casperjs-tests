@@ -8,24 +8,22 @@
 casper.test.begin('Plan Comparison Visual Regression', function suite(test) {
 	casper.calypsoNavigateToUpgrades(test);
 
+/*
+  casper.then(selectPremium);
+	casper.calypsoNavigateToUpgrades(test);
+  casper.then(selectBusiness);
+	casper.calypsoNavigateToUpgrades(test);
+*/
+  casper.then(comparePlans);
+
 				function selectPremium() {
 								var selector = '.value_bundle button';
 							  casper.waitForSelector(selector, function testPlansPageLoaded() {
 												casper.test.assertTitleMatch(/Plans/, 'Plans selection page loaded');
 												casper.click(selector);
+									      phantomcss.screenshot('#content', 'Purchase Premium Plan');
 								});
-
-//								casper.waitForSelector('p.checkout-terms', function() {
-									phantomcss.screenshot('#content', 'Purchase Premium Plan');
-//								});
 				}
-
-  casper.then(selectPremium);
-/*
-	casper.back();
-  casper.then(selectBusiness);
-	casper.back();
-  casper.then(comparePlans);
 
 				function selectBusiness() {
 								var selector = '.business-bundle button';
@@ -37,14 +35,17 @@ casper.test.begin('Plan Comparison Visual Regression', function suite(test) {
 				}
 
 				function comparePlans() {
-								casper.click('a.compare-plans-link');
-								var selector = 'div.plans';
+								var compareLink = 'a.compare-plans-link';
+								casper.waitForSelector(compareLink, function testComparePlansPageLoaded() {
+									casper.click(compareLink);
+								});
+
+								var selector = 'div.plans.main';
 								casper.waitForSelector(selector, function comparePlansPageLoaded() {
 												casper.test.assertTitleMatch(/Compare Plans/, 'Plan compare page loaded');
 												phantomcss.screenshot(selector, 'Compare Plans');
 								});
 				}
-*/
 
   casper.then(function() { phantomcss.compareSession(); });
 
