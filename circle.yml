@@ -13,7 +13,7 @@ test:
     - mv slimerjs-0.9.6 $HOME/slimerjs
     - curl -k -L -o casperjs.zip https://github.com/n1k0/casperjs/zipball/1.1-beta3
     - unzip casperjs.zip
-    - mv n1k10-casperjs-4f105a9 $HOME/casperjs
+    - mv n1k0-casperjs-4f105a9 $HOME/casperjs
   override:
     - casperjs --engine=slimerjs --version
     - casperjs --engine=slimerjs test --pre=login.js tests/08_comparePlans_vis.js
